@@ -1,0 +1,148 @@
+package com.dthoperator.ui;
+import java.util.Random;
+import java.util.ArrayList;
+import java.util.Scanner;
+
+import com.dthoperator.bean.RechargeDetails;
+import com.dthoperator.service.RechargeCollectionHelper;
+import com.dthoperator.service.RechargeDataValidator;
+
+public class RechargeClient {
+
+	public static void main(String[] args) throws com.dthoperator.exception.ListException 
+	{
+		// TODO Auto-generated method stub
+		RechargeCollectionHelper r1 = new RechargeCollectionHelper();
+		RechargeDataValidator data = new RechargeDataValidator();
+		ArrayList<RechargeDetails> detail = new ArrayList<>();
+		Scanner sc = new Scanner(System.in);
+		int option ;
+		do
+		{
+			RechargeDetails details=new RechargeDetails();
+		System.out.println("Menu\n1. Make a Recharge\n2.Display Recharge Details\n3. Exit");
+		option = sc.nextInt();
+		switch (option) 
+		{
+		case 1:
+			// to select the required dth operator
+			System.out.println("Select DTH Operator:\n1.Airtel\n2.DishTV\n3.Reliance\n4.TATASky\n");
+			int opt1 = 0;
+			opt1 = sc.nextInt();
+			if (opt1 <= 4) 
+			{
+				while (!data.validatedthOperator(opt1))
+				{
+					opt1 = sc.nextInt();
+					
+				}
+			} 
+			else 
+			{
+				System.out.println("Failed to Recharge. ");
+				break;
+			}
+					if(opt1==1)
+					{
+						details.setDthOperator("Airtel");
+					}
+					else
+						if(opt1==2)
+						{
+							details.setDthOperator("DishTV");
+							
+						}
+						else
+							if(opt1==3)
+							{
+								details.setDthOperator("TATASky");
+							}
+							else 
+								if(opt1==4)
+								{
+									details.setDthOperator("Airtel");
+								}
+			// to enter the valid consumer number
+			System.out.println("Enter Registered Consumer No.:\n");
+			int conNum = 0;
+			conNum = sc.nextInt();
+			if (conNum == 1089343431 || conNum==303322123 || conNum==892343430) 
+			{
+				while (!data.validateConsumerNo(conNum)) {
+					conNum = sc.nextInt();
+				}
+			}
+			else 
+			{
+				System.out.println("Failed to Recharge");
+				break;
+			}
+			details.setConsumerNo(conNum);
+			// to select a plan
+			System.out.println("Select Plan:\n1.Monthly\n2.Quarterly\n3.Half Yearly\n4.Annual");
+			int plan = 0;
+			plan = sc.nextInt();
+			while (!data.validatePlan(plan)) 
+			{
+				plan = sc.nextInt();
+			}
+			
+			if(plan==1)
+			{
+				details.setRechargePlan("Monthly");
+			}
+			else
+				if(plan==2)
+				{
+					details.setRechargePlan("Quarterly");
+					
+				}
+				else
+					if(plan==3)
+					{
+						details.setRechargePlan("Half Yearly");
+					}
+					else 
+						if(plan==4)
+						{
+							details.setRechargePlan("Annual");
+						}
+			// to enter the valid amount
+			System.out.println("Enter Amount (Rs.):\n");
+			int amount = 0;
+			amount = sc.nextInt();
+			while (!data.validateAmount(amount)) 
+			{
+				amount = sc.nextInt();
+			}
+			details.setAmount(amount);
+			System.out.println("Succesful Recharge. Transaction ID is:\n");
+			Random r=new Random();
+			int i=r.nextInt(10000);
+			System.out.println(i);
+			details.setTransactionID(i);
+			r1.addRechargeDetails(details);
+			
+			break;
+
+		case 2:
+			// to display the details
+			ArrayList<RechargeDetails> list = r1.getItems();
+			for (RechargeDetails rechargeDetails : list)
+				System.out.println(rechargeDetails);
+			break;
+
+		case 3:
+			// to exit the application
+			System.out.println("Exit");
+			break;
+
+		default:
+			System.out.println("You entered the wrong Choice\n");
+			break;
+		}
+		}
+		while(option!=3);
+	}
+
+}
