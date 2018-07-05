@@ -1,0 +1,59 @@
+package com.dthoperator.service;
+
+import static org.junit.Assert.*;
+
+import java.util.ArrayList;
+
+import org.junit.After;
+import org.junit.Before;
+import org.junit.Test;
+
+import com.dthoperator.bean.RechargeDetails;
+
+public class RechargeCollectionHelperTest 
+{
+
+	@Before
+	public void setUp() throws Exception
+	{
+		//System.out.println("Started executing the test cases");
+	}
+
+	@After
+	public void tearDown() throws Exception 
+	{
+		//System.out.println("Finished executing the test cases");
+
+	}
+
+	@Test
+	public void testaddRechargeDetails() 
+	{
+		
+		RechargeCollectionHelper helper=new RechargeCollectionHelper();
+		RechargeDetails details=new RechargeDetails();
+		details.setDthOperator("Airtel");
+		helper.addRechargeDetails(details);
+		assertEquals(4, helper.getItems().size());
+		
+	}
+
+	@Test
+	public void testgetItems() 
+	{
+		RechargeCollectionHelper helper=new RechargeCollectionHelper();
+		ArrayList<RechargeDetails> list=helper.getItems();
+		assertEquals(false,list.isEmpty());
+	
+	}
+
+	@Test
+	public void testgetItems1()
+	{
+		RechargeCollectionHelper helper=new RechargeCollectionHelper();
+		ArrayList<RechargeDetails> list=helper.getItems();
+		assertEquals("Airtel", list.get(0).getDthOperator());
+		
+	}
+	
+}
